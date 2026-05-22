@@ -5,6 +5,7 @@ Edmundo Torres-González, Marzia A. Cremona, Jessica M. Storer, Mario Ventura, R
 
 *Correspondence to Kateryna D. Makova ([kdm16@psu.edu](mailto:kdm16@psu.edu))
 
+doi: [10.1101/2025.04.24.650511](https://doi.org/10.1101/2025.04.24.650511)
 
 ## Directory Structure
 
