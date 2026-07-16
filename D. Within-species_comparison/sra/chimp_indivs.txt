@@ -1,0 +1,42 @@
+  Andromeda:
+    species: Eastern_chimpanzee
+  Brigitta:
+    species: Pan_troglodytes_troglodytes
+  Cindy_troglodytes:
+    species: Pan_troglodytes_troglodytes
+  Cleo:
+    species: Pan_troglodytes_schweinfurthii
+  Harriet:
+    species: Eastern_chimpanzee
+  Ikuru:
+    species: Pan_troglodytes_schweinfurthii
+  Jimmie:
+    species: Western_chimpanzee
+  Kopongo:
+    species: Nigerian_chimpanzee
+  Lara:
+    species: Pan_troglodytes_troglodytes
+  Luky:
+    species: Pan_troglodytes_troglodytes
+  Mirinda:
+    species: Pan_troglodytes_troglodytes
+  Nakuu:
+    species: Eastern_chimpanzee
+  Tobi:
+    species: Nigerian_chimpanzee
+  Ula:
+    species: Pan_troglodytes_troglodytes
+  Athanga:
+    species: Pan_troglodytes_schweinfurthii
+  Bosco:
+    species: Western_chimpanzee
+  Damian:
+    species: Nigerian_chimpanzee
+  Gamin:
+    species: Pan_troglodytes_troglodytes
+  Koby:
+    species: Western_chimpanzee
+  PD_0427:
+    species: troglodytes
+  SeppToni:
+    species: Pan_troglodytes_verus
