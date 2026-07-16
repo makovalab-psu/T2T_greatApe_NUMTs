@@ -13,16 +13,16 @@ This repository contains the following directories:
 
 1. **`NUMT discovery pipeline`**: Includes all Python and Bash scripts necessary for detecting NUMTs in Telomere-to-Telomere (T2T) genomes.
 
-2. **`Summary of NUMTs`**:
+2. **`Summary of NUMTs`**: Contains scripts that plot NUMT summary statistics.
 
 3. **`Phylogenetic analyses`**: Contains scripts used to determine shared and lineage-specific NUMTs among great apes.
 
-4. **`Within-species comparison`**:
+4. **`Overlap with genome features`**: Compares NUMT content across genome features.
 
-5. **`Overlap with genome features`**:
+5. **`Large NUMT`**: Analysis of 76-kb NUMT in chimpanzee.
 
-6. **`Large NUMT`**:
+6. **`Y-chr palindromes`**: Analysis of NUMT content in Pan genus ChrY palindromes.
 
-7. **`Y-chr palindromes`**:
+7. **`Within-species comparison`**: Scripts that download SRA accessions, identify NUMTs, and compare to the T2T assemblies.
 
 8. **`Plots`**: Contains Jupyter notebooks that generated all the plots include in the manuscript.
