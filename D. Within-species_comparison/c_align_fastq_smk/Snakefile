@@ -1,0 +1,262 @@
+import os
+import glob
+
+configfile: "config/config.yaml"
+
+# --- 1. SAMPLE DISCOVERY & FILTERING ---
+# Scans the 'reads' directory for paired-end FastQ files.
+# The {path} wildcard captures nested subfolders (e.g., 'PonAbe/Female/ID123/').
+ALL_PATHS, ALL_SAMPLES = glob_wildcards(config["paths"]["reads"] + "/{path}/{sample}_2.fastq.gz")
+
+# We create three lists to track path, sample ID, and the validated species key.
+PATHS, SAMPLES, SPECIES_LIST = [], [], [] 
+seen_individuals = set()
+
+
+for p, s in zip(ALL_PATHS, ALL_SAMPLES):
+    # We extract the potential species name from the top-level directory.
+    species_key = p.split('/')[0] 
+    
+    # Validation: Only keep the sample if the species_key exists in config.yaml.
+    # This "Species-list" approach ensures we only process recognized species.
+    if species_key in config["species_refs"]:
+
+        # If config is set to limit to one SRR per individual
+        if config["params"].get("one_srr_per_individual", False):
+            # Extract individual identity (e.g., 'PonAbe/female/Miky')
+            individual_id = p
+            
+            if individual_id in seen_individuals:
+                continue # Skip this SRR since we already grabbed one for this individual
+
+            # 2. Check filesystem for ANY completed BAM file for this individual prefix
+            # Example prefix: PonAbe_female_Miky
+            individual_prefix = p.replace("/", "_")
+            
+            # Look for: .../alignments/PonAbe_female_Miky_*_t2t.bam
+            search_pattern = os.path.join(
+                config["paths"]["results"], 
+                "alignments", 
+                f"{individual_prefix}_*_t2t.bam"
+            )
+            
+            # glob.glob returns a list of matching files. If the list isn't empty, a BAM exists!
+            if glob.glob(search_pattern):
+                print(f"Skipping individual {individual_prefix}: a completed alignment already exists.")
+                continue
+
+
+            seen_individuals.add(individual_id)
+
+
+        PATHS.append(p)
+        SAMPLES.append(s)
+        SPECIES_LIST.append(species_key) 
+
+FLAT_NAMES = [f"{p}_{s}".replace("/", "_") for p, s in zip(PATHS, SAMPLES)]
+
+# NAME_TO_INFO is an upgraded lookup dictionary.
+# Instead of just path/sample, it explicitly stores the validated species key.
+# Structure: { "Flat_Name": (original_path, sample_id, species_key) }
+NAME_TO_INFO = dict(zip(FLAT_NAMES, zip(PATHS, SAMPLES, SPECIES_LIST)))
+
+
+# --- 2. TARGET RULE ---
+rule all:
+    input:
+        expand(config["paths"]["results"] + "/alignments/{name}_t2t.bam.bai", name=FLAT_NAMES),
+        expand(config["paths"]["results"] + "/qc/fastp/{name}.fastp.html", name=FLAT_NAMES),
+        #config["paths"]["results"] + "/qc/multiqc_report.html"
+
+
+# --- 3. QUALITY CONTROL ---
+rule fastqc:
+    """Generates per-sample quality reports with descriptive names."""
+    input:
+        r1 = lambda wc: f"{config['paths']['reads']}/{NAME_TO_INFO[wc.name][0]}/{NAME_TO_INFO[wc.name][1]}_1.fastq.gz",
+        r2 = lambda wc: f"{config['paths']['reads']}/{NAME_TO_INFO[wc.name][0]}/{NAME_TO_INFO[wc.name][1]}_2.fastq.gz"
+    output:
+        html1 = config["paths"]["results"] + "/qc/fastqc/{name}_1_fastqc.html",
+        html2 = config["paths"]["results"] + "/qc/fastqc/{name}_2_fastqc.html"
+    threads: 
+        config["params"]["fastqc_threads"]
+    resources: 
+        mem_mb = config["resources"]["fastqc_mem"]
+    shell:
+        """
+        outdir=$(dirname {output.html1})
+        mkdir -p $outdir
+        
+        # Run FastQC.
+        fastqc -t {threads} {input.r1} {input.r2} -o $outdir
+        
+        # Determine the internal SRR name used by FastQC for renaming.
+        # Using basename and stripping extensions to be safe.
+        srr_base1=$(basename {input.r1} .fastq.gz)
+        srr_base2=$(basename {input.r2} .fastq.gz)
+
+        # Rename to match Snakemake's descriptive name output.
+        mv $outdir/${{srr_base1}}_fastqc.html {output.html1}
+        mv $outdir/${{srr_base2}}_fastqc.html {output.html2}
+        
+        # Optional: cleanup the zip files FastQC also creates so they don't clutter the dir.
+        rm -f $outdir/${{srr_base1}}_fastqc.zip $outdir/${{srr_base2}}_fastqc.zip
+        """
+
+
+rule trim_reads:
+    """
+    Cleans raw reads by removing adapters and low-quality bases.
+    Outputs go to a 'trimmed' directory.
+    """
+    input:
+        r1 = lambda wc: f"{config['paths']['reads']}/{NAME_TO_INFO[wc.name][0]}/{NAME_TO_INFO[wc.name][1]}_1.fastq.gz",
+        r2 = lambda wc: f"{config['paths']['reads']}/{NAME_TO_INFO[wc.name][0]}/{NAME_TO_INFO[wc.name][1]}_2.fastq.gz"
+    output:
+        r1 = config["paths"]["results"] + "/trimmed/{name}_1.trimmed.fastq.gz",
+        r2 = config["paths"]["results"] + "/trimmed/{name}_2.trimmed.fastq.gz",
+        json = config["paths"]["results"] + "/qc/fastp/{name}.fastp.json",
+        html = config["paths"]["results"] + "/qc/fastp/{name}.fastp.html"
+    threads: 
+        config["params"]["fastp_threads"]
+    resources: 
+        mem_mb = config["resources"]["fastp_mem"]
+    shell:
+        """
+        fastp -i {input.r1} -I {input.r2} \
+              -o {output.r1} -O {output.r2} \
+              -j {output.json} -h {output.html} \
+              --thread {threads} \
+              --detect_adapter_for_pe
+        """
+
+#rule multiqc:
+#    """Aggregates all FastQC metrics into a single interactive HTML dashboard."""
+#    input:
+#        # Tell MultiQC to wait until both FastQC and Fastp are done
+#        expand(config["paths"]["results"] + "/qc/fastqc/{name}_1_fastqc.html", name=FLAT_NAMES),
+#        expand(config["paths"]["results"] + "/qc/fastp/{name}.fastp.json", name=FLAT_NAMES)
+#    output:
+#        config["paths"]["results"] + "/qc/multiqc_report.html"
+#    shell:
+#        "multiqc {config[paths][results]}/qc -o $(dirname {output})"
+
+
+# --- 4. ALIGNMENT & INDEXING ---
+#rule align:
+#    """
+#    Performs BWA-MEM alignment and pipes output directly to samtools sort.
+#     NOTE: BWA automatically finds indices (.bwt, .sa, etc.) in the same 
+#     directory as the reference .fna.gz file.
+#    Uses the explicitly stored species key to map samples to their T2T reference.
+#     This avoids path-splitting logic inside the rule, which is safer for
+#     complex directory structures.
+#    """
+#    input:
+#        # Points to the trimmed files
+#        r1 = config["paths"]["results"] + "/trimmed/{name}_1.trimmed.fastq.gz",
+#        r2 = config["paths"]["results"] + "/trimmed/{name}_2.trimmed.fastq.gz",
+#        # We pull the species key from NAME_TO_INFO[wc.name][2]
+#        ref = lambda wc: f"{config['paths']['references']}/{config['species_refs'][NAME_TO_INFO[wc.name][2]]}"
+#    output:
+#        bam = config["paths"]["results"] + "/alignments/{name}_t2t.bam"
+#    threads: config["params"]["bwa_threads"]
+#    shell:
+#        """
+#        set -o pipefail;
+#        # We give BWA 'threads - 4' to leave room for samtools sort.
+#	bwa mem -t $(({threads} - 4)) \
+#        -R '@RG\\tID:{wildcards.name}\\tSM:{wildcards.name}' \
+#        {input.ref} {input.r1} {input.r2} | \
+#        samtools sort -@ 4 -o {output.bam} -
+#        """
+
+rule subsample_fastq:
+    """
+    Subsamples paired-end FASTQ files cleanly using seqtk.
+    Using a fixed random seed ensures that matching forward and reverse 
+    mate-pairs are identically sampled.
+    """
+    input:
+        r1 = config["paths"]["results"] + "/trimmed/{name}_1.trimmed.fastq.gz",
+        r2 = config["paths"]["results"] + "/trimmed/{name}_2.trimmed.fastq.gz"
+    output:
+        r1 = temp(config["paths"]["results"] + "/trimmed/{name}_1.sampled.fastq.gz"),
+        r2 = temp(config["paths"]["results"] + "/trimmed/{name}_2.sampled.fastq.gz")
+    params:
+        max_reads = int(config["params"]["max_reads"]),
+        seed = 100
+    shell:
+        """
+        seqtk sample -s{params.seed} {input.r1} {params.max_reads} | gzip > {output.r1}
+        seqtk sample -s{params.seed} {input.r2} {params.max_reads} | gzip > {output.r2}
+        """
+
+rule align_raw:
+    """
+    Runs BWA-MEM on the downsampled FASTQ files.
+    Saves progress to an unsorted intermediate BAM.
+    """
+    input:
+        r1 = config["paths"]["results"] + "/trimmed/{name}_1.sampled.fastq.gz",
+        r2 = config["paths"]["results"] + "/trimmed/{name}_2.sampled.fastq.gz",
+        ref = lambda wc: f"{config['paths']['references']}/{config['species_refs'][NAME_TO_INFO[wc.name][2]]}"
+    output:
+        bam_raw = temp(config["paths"]["results"] + "/alignments/{name}_raw.bam")
+    threads: 
+        config["params"]["bwa_threads"]
+    resources: 
+        mem_mb = config["resources"]["bwa_mem"]
+    shell:
+        """
+        bwa mem -t {threads} \
+        -R '@RG\\tID:{wildcards.name}\\tSM:{wildcards.name}' \
+        {input.ref} {input.r1} {input.r2} | \
+        samtools view -bS - > {output.bam_raw}
+        """
+
+rule sort_bam:
+    """
+    Sorts the completed raw BAM file. 
+    Uses 2GB per thread (8GB total for 4 threads) to keep the sort completely in-memory.
+    If this step gets interrupted, Snakemake will skip BWA-MEM entirely next time
+    and just restart this sorting step (taking only a few minutes).
+    """
+    input:
+        bam_raw = config["paths"]["results"] + "/alignments/{name}_raw.bam"
+    output:
+        bam = config["paths"]["results"] + "/alignments/{name}_t2t.bam"
+    threads: 
+        config["params"]["sort_threads"]
+    resources: 
+        mem_mb = config["resources"]["sort_mem"]
+    shell:
+        """
+        set -o pipefail;
+        samtools sort -@ {threads} -m 2G -o {output.bam} {input.bam_raw}
+        """
+
+rule index_bam:
+    """Creates a .bai index for rapid coordinate-based lookups (required for IGV/GATK)."""
+    input:  config["paths"]["results"] + "/alignments/{name}_t2t.bam"
+    output: config["paths"]["results"] + "/alignments/{name}_t2t.bam.bai"
+    shell:  "samtools index {input}"
+
+
+"""
+Ape Genomics Pipeline: Scalable T2T Alignment
+--------------------------------------------
+Author: Edmundo Torres-González
+Date: April 2026
+
+DESCRIPTION:
+This pipeline automates FastQC, MultiQC, and BWA-MEM alignment for massive 
+genomic datasets. It is designed to handle nested directory structures while 
+filtering for specific species of interest.
+
+WORKFLOW:
+1. QC: Runs FastQC on raw reads and aggregates results with MultiQC.
+2. Alignment: Maps reads to T2T primate assemblies using BWA-MEM.
+3. Post-Processing: Sorts output via samtools and generates BAM indices (.bai).
+"""
+

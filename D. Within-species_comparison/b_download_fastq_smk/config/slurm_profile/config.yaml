@@ -1,0 +1,18 @@
+# config/slurm_profile/config.yaml
+# Snakemake 9.x Slurm Profile
+
+executor: slurm
+jobs: 20
+latency-wait: 120
+printshellcmds: true
+show-failed-logs: true
+
+# These are the "Global Defaults" sent to sbatch
+default-resources:
+  runtime: 1440         # 24 hours (1440 minutes)
+  mem_mb: 16000         # 16GB baseline
+  nodes: 1
+  slurm_partition: "basic" 
+  # This maps Snakemake resources to Slurm sbatch arguments
+  slurm_extra: "'--export=ALL --output=logs/slurm/slurm-%j.out --error=logs/slurm/slurm-%j.err'"
+

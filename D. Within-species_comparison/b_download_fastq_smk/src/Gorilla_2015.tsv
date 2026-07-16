@@ -1,0 +1,20 @@
+entity:sample_id	Common_name	SRA_List	Sex	paper
+Maisha	Mountain gorilla	"[""ERR668423""]"	female	Xue
+Umurimo	Mountain gorilla	"[""ERR668424""]"	female	Xue
+Turimaso	Mountain gorilla	"[""ERR668425""]"	female	Xue
+Tumani	Eastern lowland gorilla	"[""ERR668426""]"	female	Xue
+Pinga	Eastern lowland gorilla	"[""ERR668427""]"	female	Xue
+Dunia	Eastern lowland gorilla	"[""ERR668428""]"	female	Xue
+Serufuli	Eastern lowland gorilla	"[""ERR668429""]"	female	Xue
+Zirikana	Mountain gorilla	"[""ERR223709"",""ERR223715"",""ERR223721"",""ERR223727"",""ERR223733"",""ERR223739"",""ERR223745"",""ERR223751"",""ERR223757"",""ERR223763"",""ERR223769"",""ERR223775"",""ERR223781"",""ERR223787"",""ERR223793"",""ERR223805"",""ERR225695"",""ERR223799""]"	male	Xue
+Imfura	Mountain gorilla	"[""ERR223710"",""ERR223716"",""ERR223722"",""ERR223728"",""ERR223734"",""ERR223740"",""ERR223746"",""ERR223752"",""ERR223758"",""ERR223764"",""ERR223770"",""ERR223776"",""ERR223782"",""ERR223788"",""ERR223794"",""ERR223800"",""ERR223806"",""ERR225696""]"	male	Xue
+Tuck	Mountain gorilla	"[""ERR223711"",""ERR223717"",""ERR223723"",""ERR223729"",""ERR223735"",""ERR223741"",""ERR223747"",""ERR223753"",""ERR223759"",""ERR223765"",""ERR223771"",""ERR223777"",""ERR223783"",""ERR223789"",""ERR223795"",""ERR223801"",""ERR223807"",""ERR225697""]"	female	Xue
+Itebero	Eastern lowland gorilla	"[""ERR223712"",""ERR223718"",""ERR223724"",""ERR223730"",""ERR223736"",""ERR223742"",""ERR223748"",""ERR223754"",""ERR223760"",""ERR223766"",""ERR223772"",""ERR223778"",""ERR223784"",""ERR223790"",""ERR223796"",""ERR223802"",""ERR223808"",""ERR225698""]"	female	Xue
+Ntabwoba	Eastern lowland gorilla	"[""ERR223713"",""ERR223719"",""ERR223725"",""ERR223731"",""ERR223737"",""ERR223743"",""ERR223749"",""ERR223755"",""ERR223761"",""ERR223767"",""ERR223773"",""ERR223779"",""ERR223785"",""ERR223791"",""ERR223797"",""ERR223803"",""ERR223809"",""ERR225699""]"	male	Xue
+Kaboko	Mountain gorilla	"[""ERR223714"",""ERR223720"",""ERR223726"",""ERR223732"",""ERR223738"",""ERR223744"",""ERR223750"",""ERR223756"",""ERR223762"",""ERR223768"",""ERR223774"",""ERR223780"",""ERR223786"",""ERR223792"",""ERR223798"",""ERR223804"",""ERR223810"",""ERR225700""]"	male	Xue
+Bwiruka	Mountain gorilla	"[""ERR2300765""]"	female	Pawar
+Kahungye	Mountain gorilla	"[""ERR2300762""]"	female	Pawar
+Katungi	Mountain gorilla	"[""ERR2300763""]"	female	Pawar
+Nyamunwa	Mountain gorilla	"[""ERR2300764""]"	female	Pawar
+Semehe	Mountain gorilla	"[""ERR2300766""]"	female	Pawar
+Mukokya	Eastern lowland gorilla	"[""ERR2300767""]"	male	Pawar

@@ -1,0 +1,14 @@
+name: snakemake
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11
+  - snakemake=8.10    # Latest stable version
+  - bwa=0.7.17        # Alignment
+  - samtools=1.19     # BAM processing
+  - fastqc=0.12.1     # Quality control
+  - pyyaml            # For parsing config.yaml
+  - multiqc=1.21    # Added for aggregate reporting
+  - fastp             # Trimming reads based on quality

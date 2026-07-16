@@ -1,0 +1,20 @@
+Assembly	Classification	Count
+CHM13	Only 1s	127
+CHM13	Mix of 1s and 0s	24
+CHM13	Only 0s	1
+mGorGor1	Only 1s	68
+mGorGor1	Mostly 1s and one 0	27
+mGorGor1	Mix of 1s and 0s	23
+mPanPan1	Only 1s	58
+mPanPan1	Mix of 1s and 0s	4
+mPanPan1	Mostly 1s and one 0	3
+mPanTro3	Mix of 1s and 0s	30
+mPanTro3	Only 1s	19
+mPanTro3	Mostly 1s and one 0	12
+mPanTro3	Only 0s	1
+mPonAbe1	Only 1s	20
+mPonAbe1	Mostly 1s and one 0	15
+mPonAbe1	Mix of 1s and 0s	8
+mPonPyg2	Only 1s	24
+mPonPyg2	Mostly 1s and one 0	3
+mPonPyg2	Mix of 1s and 0s	1

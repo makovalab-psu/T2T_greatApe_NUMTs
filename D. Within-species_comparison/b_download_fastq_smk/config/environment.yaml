@@ -1,0 +1,15 @@
+name: download_fastq
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python>=3.8
+  - snakemake>=8.0
+  - snakemake-executor-plugin-slurm
+  - pandas
+  - pyyaml
+  - glob2
+  - sra-tools=3.1.0  # Precisely pinned to your requested version
+  - openssl
+  - gzip

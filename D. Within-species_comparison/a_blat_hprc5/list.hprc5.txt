@@ -1,0 +1,6 @@
+https://human-pangenomics.s3.amazonaws.com/working/HPRC_PLUS/HG002/assemblies/Q100/pansn/hg002v1.1.pat.PanSN.fa.gz
+https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG00597/assemblies/release2/HG00597_pat_hprc_r2_v1.0.1.fa.gz
+https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG01358/assemblies/release2/HG01358_pat_hprc_r2_v1.0.1.fa.gz
+https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG02572/assemblies/release2/HG02572_pat_hprc_r2_v1.0.1.fa.gz
+https://human-pangenomics.s3.amazonaws.com/working/HPRC/HG04184/assemblies/release2/HG04184_pat_hprc_r2_v1.0.1.fa.gz
+

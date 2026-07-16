@@ -1,0 +1,9 @@
+#NEXUS
+
+begin paup;
+    execute hprc5.species_matrix_flanks500_0.5.nexus;
+    hsearch;
+    showTrees / outRoot=monophyletic;
+    saveTrees format=Newick brLens=yes root=yes trees=all file=pauptree_hprc5.nwk;
+
+end;

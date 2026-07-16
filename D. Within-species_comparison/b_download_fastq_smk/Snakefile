@@ -1,0 +1,53 @@
+import os
+import yaml
+
+# Load system and path configuration
+configfile: "config/config.yaml"
+
+# Load the aggregated sample metadata
+with open(config["samples_metadata"], "r") as f:
+    samples_config = yaml.safe_load(f)
+
+INDIVS = samples_config["individuals"]
+
+rule all:
+    input:
+        [
+            os.path.join(
+                config["paths"]["scratch_base"], 
+                f"{meta['species']}/{meta['sex']}/{name}/{srr}/{srr}_{read}.fastq.gz"
+            )
+            for name, meta in INDIVS.items()
+            for srr in meta['runs']
+            for read in [1, 2]
+        ]
+
+rule fasterq_dump:
+    output:
+        r1 = config["paths"]["scratch_base"] + "/{species}/{sex}/{indiv}/{srr}/{srr}_1.fastq.gz",
+        r2 = config["paths"]["scratch_base"] + "/{species}/{sex}/{indiv}/{srr}/{srr}_2.fastq.gz"
+    threads: 5
+    params:
+        temp_dir = "/scratch/ejt89/tmp"
+    shell:
+        """
+        # 1. Create all necessary directories
+        mkdir -p {params.temp_dir}
+        out_dir=$(dirname {output.r1})
+        mkdir -p $out_dir
+
+        # 2. Run fasterq-dump 
+        # We use --force to overwrite any half-finished uncompressed files
+        fasterq-dump \
+            --outdir $out_dir \
+            --temp {params.temp_dir} \
+            --threads {threads} \
+            --skip-technical \
+	    --force \
+            {wildcards.srr}
+
+        # 3. Compress immediately (fasterq-dump output is huge)
+        gzip -f $out_dir/{wildcards.srr}_1.fastq
+        gzip -f $out_dir/{wildcards.srr}_2.fastq
+        """
+

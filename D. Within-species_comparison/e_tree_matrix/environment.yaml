@@ -1,0 +1,11 @@
+name: tree_env
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - r-base
+  - r-ggplot2
+  - bioconductor-ggtree
+  - bioconductor-treeio
+

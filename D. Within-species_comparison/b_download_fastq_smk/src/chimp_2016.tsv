@@ -1,0 +1,35 @@
+entity:sample_id	Common_name	SRA_List	Sex
+Athanga	Pan troglodytes schweinfurthii	"[""ERR1709884"", ""ERR1709883""]"	male
+Ula	Pan troglodytes troglodytes	"[""ERR1709908"", ""ERR1709885"", ""ERR1709886"", ""ERR1709887"", ""ERR1709888"", ""ERR1709889"", ""ERR1709890"", ""ERR1709891"", ""ERR1709892"", ""ERR1709893"", ""ERR1709894"", ""ERR1709895"", ""ERR1709896"", ""ERR1709897"", ""ERR1709898"", ""ERR1709899"", ""ERR1709903"", ""ERR1709907"", ""ERR1709904"", ""ERR1709902"", ""ERR1709905"", ""ERR1709900"", ""ERR1709901"", ""ERR1709906""]"	female
+Luky	Pan troglodytes troglodytes	"[""ERR1709935"", ""ERR1709912"", ""ERR1709913"", ""ERR1709914"", ""ERR1709915"", ""ERR1709916"", ""ERR1709917"", ""ERR1709918"", ""ERR1709919"", ""ERR1709920"", ""ERR1709921"", ""ERR1709922"", ""ERR1709923"", ""ERR1709924"", ""ERR1709930"", ""ERR1709931"", ""ERR1709932"", ""ERR1709933"", ""ERR1709934"", ""ERR1709929"", ""ERR1709927"", ""ERR1709925"", ""ERR1709926"", ""ERR1709928""]"	female
+Gamin	Pan troglodytes troglodytes	"[""ERR1709981"", ""ERR1709966"", ""ERR1709967"", ""ERR1709968"", ""ERR1709969"", ""ERR1709970"", ""ERR1709971"", ""ERR1709972"", ""ERR1709973"", ""ERR1709974"", ""ERR1709975"", ""ERR1709976"", ""ERR1709977"", ""ERR1709978"", ""ERR1709979"", ""ERR1709980"", ""ERR1709982"", ""ERR1709983"", ""ERR1709984"", ""ERR1709985"", ""ERR1709987"", ""ERR1709988"", ""ERR1709986"", ""ERR1709989""]"	male
+Mirinda	Pan troglodytes troglodytes	"[""ERR1709994"", ""ERR1709995"", ""ERR1710010"", ""ERR1710014"", ""ERR1709996"", ""ERR1709997"", ""ERR1709998"", ""ERR1709999"", ""ERR1710000"", ""ERR1710001"", ""ERR1710002"", ""ERR1710003"", ""ERR1710004"", ""ERR1710005"", ""ERR1710006"", ""ERR1710007"", ""ERR1710008"", ""ERR1710009"", ""ERR1710011"", ""ERR1710012"", ""ERR1710013"", ""ERR1710015"", ""ERR1710016"", ""ERR1710017""]"	female
+Cindy_troglodytes	Pan troglodytes troglodytes	"[""ERR1710039"", ""ERR1710044"", ""ERR1710046"", ""ERR1710050"", ""ERR1710052"", ""ERR1710059"", ""ERR1710038"", ""ERR1710040"", ""ERR1710041"", ""ERR1710045"", ""ERR1710047"", ""ERR1710048"", ""ERR1710049"", ""ERR1710054"", ""ERR1710055"", ""ERR1710056"", ""ERR1710057"", ""ERR1710058"", ""ERR1710060"", ""ERR1710042"", ""ERR1710051"", ""ERR1710053"", ""ERR1710043""]"	female
+Alfred	Pan troglodytes troglodytes	"[""ERR1710062"", ""ERR1710063"", ""ERR1710061"", ""ERR1710064"", ""ERR1710065"", ""ERR1710066"", ""ERR1710067"", ""ERR1710068"", ""ERR1710069"", ""ERR1710070"", ""ERR1710071"", ""ERR1710072"", ""ERR1710073"", ""ERR1710074"", ""ERR1710075"", ""ERR1710076"", ""ERR1710077"", ""ERR1710078"", ""ERR1710082"", ""ERR1710079"", ""ERR1710081"", ""ERR1710080"", ""ERR1710084"", ""ERR1710083""]"	male
+Annie	Pan troglodytes verus	"[""ERR1710092"", ""ERR1710089"", ""ERR1710091"", ""ERR1710090""]"	female
+Maya	Pan troglodytes schweinfurthii	"[""ERR1710110"", ""ERR1710109"", ""ERR1710111"", ""ERR1710112""]"	female
+Washu	Pan troglodytes schweinfurthii	"[""ERR1710113"", ""ERR1710114"", ""ERR1710115"", ""ERR1710116""]"	male
+Lara	Pan troglodytes troglodytes	"[""ERR1710145"", ""ERR1710146"", ""ERR1710125"", ""ERR1710126"", ""ERR1710127"", ""ERR1710128"", ""ERR1710129"", ""ERR1710130"", ""ERR1710131"", ""ERR1710132"", ""ERR1710133"", ""ERR1710134"", ""ERR1710135"", ""ERR1710136"", ""ERR1710137"", ""ERR1710138"", ""ERR1710139"", ""ERR1710140"", ""ERR1710141"", ""ERR1710142"", ""ERR1710144"", ""ERR1710148"", ""ERR1710143"", ""ERR1710147""]"	female
+Brigitta	Pan troglodytes troglodytes	"[""ERR1709940"", ""ERR1709936"", ""ERR1709938"", ""ERR1709939"", ""ERR1709941"", ""ERR1709942"", ""ERR1709943"", ""ERR1709945"", ""ERR1709946"", ""ERR1709947"", ""ERR1709949"", ""ERR1709950"", ""ERR1709951"", ""ERR1709952"", ""ERR1709953"", ""ERR1709954"", ""ERR1709955"", ""ERR1709956"", ""ERR1709958"", ""ERR1709959"", ""ERR1709937"", ""ERR1709944"", ""ERR1709957"", ""ERR1709948""]"	female
+Tibe	Pan troglodytes troglodytes	"[""ERR1709871"", ""ERR1709872""]"	female
+Mgbadolite	Pan troglodytes schweinfurthii	"[""ERR1709875"", ""ERR1709877"", ""ERR1709878"", ""ERR1709874"", ""ERR1709873"", ""ERR1709876""]"	male
+SeppToni	Pan troglodytes verus	"[""ERR1709879"", ""ERR1709880"", ""ERR1709881"", ""ERR1709882""]"	male
+Noemie	Pan troglodytes troglodytes	"[""ERR1709909"", ""ERR1709910"", ""ERR1709911""]"	female
+Blanquita	Pan troglodytes troglodytes	"[""ERR1709960"", ""ERR1709961""]"	female
+Berta	Pan troglodytes verus	"[""ERR1709962"", ""ERR1709963"", ""ERR1709964"", ""ERR1709965""]"	female
+Padda	Pan troglodytes schweinfurthii	"[""ERR1709990"", ""ERR1709993"", ""ERR1709992"", ""ERR1709991""]"	male
+Marlin	Pan troglodytes troglodytes	"[""ERR1710018"", ""ERR1710019""]"	female
+Linda	Pan troglodytes verus	"[""ERR1710020"", ""ERR1710021"", ""ERR1710022"", ""ERR1710023""]"	female
+Cleo	Pan troglodytes schweinfurthii	"[""ERR1710024"", ""ERR1710025"", ""ERR1710026"", ""ERR1710027"", ""ERR1710028"", ""ERR1710029""]"	female
+Mike	Pan troglodytes verus	"[""ERR1710030"", ""ERR1710031"", ""ERR1710032"", ""ERR1710033""]"	male
+Alice	Pan troglodytes verus	"[""ERR1710034"", ""ERR1710035"", ""ERR1710036"", ""ERR1710037""]"	female
+Cindy_schwein	Pan troglodytes schweinfurthii	"[""ERR1710085"", ""ERR1710086"", ""ERR1710087"", ""ERR1710088""]"	female
+Negrita	Pan troglodytes troglodytes	"[""ERR1710093"", ""ERR1710094""]"	female
+Tongo	Pan troglodytes schweinfurthii	"[""ERR1710095"", ""ERR1710096"", ""ERR1710097"", ""ERR1710098""]"	male
+Bihati	Pan troglodytes schweinfurthii	"[""ERR1710099"", ""ERR1710100"", ""ERR1710101"", ""ERR1710102""]"	female
+Yogui	Pan troglodytes troglodytes	"[""ERR1710103"", ""ERR1710104""]"	male
+Frederike	Pan troglodytes schweinfurthii	"[""ERR1710105"", ""ERR1710106""]"	female
+Coco	Pan troglodytes schweinfurthii	"[""ERR1710107"", ""ERR1710108""]"	female
+Trixie	Pan troglodytes schweinfurthii	"[""ERR1710117"", ""ERR1710118"", ""ERR1710119"", ""ERR1710120""]"	female
+Cindy_verus	Pan troglodytes verus	"[""ERR1710121"", ""ERR1710122"", ""ERR1710123"", ""ERR1710124""]"	female
+Ikuru	Pan troglodytes schweinfurthii	"[""ERR1710149"", ""ERR1710150"", ""ERR1710151"", ""ERR1710152""]"	female

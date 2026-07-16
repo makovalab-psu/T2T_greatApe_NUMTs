@@ -1,0 +1,27 @@
+#!/bin/bash
+#SBATCH --job-name=align_snakemake
+#SBATCH -A open
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=15G
+#SBATCH --time=24:00:00
+#SBATCH --output=logs/slurm/align_%j.out
+#SBATCH --error=logs/slurm/align_%j.err
+
+# 1. Initialize micromamba (using your proven settings)
+export MAMBA_ROOT_PREFIX="/storage/home/ejt89"
+eval "$($MAMBA_ROOT_PREFIX/bin/micromamba shell hook -s bash)"
+
+# 2. Activate the bioinfo environment
+micromamba activate bioinfo
+
+# 3. Verify path (optional)
+echo "Using Snakemake from: $(which snakemake)"
+
+# 4. Clear any stale locks from previous crashes.
+snakemake --unlock
+
+# 5. Run X samples at a time, each using 4 threads, and 15G of memory.
+snakemake --jobs 1 --cores 4 --resources mem_mb=15000 --latency-wait 60 --rerun-triggers mtime --rerun-incomplete --keep-going
+

@@ -1,0 +1,9 @@
+#NEXUS
+
+begin paup;
+    execute combined_matrix.t2t_PonPyg.nexus;
+    hsearch;
+    showTrees / outRoot=monophyletic;
+    saveTrees format=Newick brLens=yes root=yes trees=all file=pauptree_PonPyg.nwk;
+
+end;

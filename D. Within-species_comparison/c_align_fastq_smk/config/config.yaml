@@ -1,0 +1,34 @@
+# Ape Genomics Project Configuration
+paths:
+  reads: "/scratch/ejt89/short_reads"
+  results: "/scratch/ejt89/apes_output"
+  tmp: "/scratch/ejt89/tmp"
+  references: "/storage/group/kdm16/default/shared/T2Tv2.assemblies/NCBI_RefSeq"
+
+species_refs:
+  CHM13: "HomSap/data/GCF_009914755.1/GCF_009914755.1_T2T-CHM13v2.0_genomic.fna.gz"
+  PanTro: "PanTro/data/GCF_028858775.2/GCF_028858775.2_NHGRI_mPanTro3-v2.0_pri_genomic.fna.gz"
+  PonPyg: "PonPyg/data/GCF_028885625.2/GCF_028885625.2_NHGRI_mPonPyg2-v2.0_pri_genomic.fna.gz"
+  PonAbe: "PonAbe/data/GCF_028885655.2/GCF_028885655.2_NHGRI_mPonAbe1-v2.0_pri_genomic.fna.gz"
+  GorGor: "GorGor/data/GCF_029281585.2/GCF_029281585.2_NHGRI_mGorGor1-v2.0_pri_genomic.fna.gz" 
+  PanPan: "PanPan/data/GCF_029289425.2/GCF_029289425.2_NHGRI_mPanPan1-v2.0_pri_genomic.fna.gz"
+  SymSyn: "SymSyn/data/GCF_028878055.3/GCF_028878055.3_NHGRI_mSymSyn1-v2.1_pri_genomic.fna.gz"
+  # Pongo tapanuli does not have T2T reference so we will use the T2T PonAbe.
+  PonTap: "PonAbe/data/GCF_028885655.2/GCF_028885655.2_NHGRI_mPonAbe1-v2.0_pri_genomic.fna.gz"
+
+params:
+  one_srr_per_individual: true
+  max_reads: 20000000 #1x pass for a 3GB genome
+  # CPU threads allocated.
+  fastqc_threads: 2
+  fastp_threads: 2
+  bwa_threads: 4
+  sort_threads: 4
+
+resources:
+  # Memory allocated.
+  fastqc_mem: 7500
+  fastp_mem: 7500
+  bwa_mem: 15000
+  sort_mem: 12000 #2GB per thread
+

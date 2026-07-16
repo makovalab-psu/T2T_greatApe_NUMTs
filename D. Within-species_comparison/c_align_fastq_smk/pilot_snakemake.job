@@ -1,0 +1,25 @@
+#!/bin/bash
+#SBATCH --job-name=pilot_snakemake
+#SBATCH -A open
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=4
+#SBATCH --mem=15G
+#SBATCH --time=24:00:00
+#SBATCH --output=logs/slurm/pilot_%j.out
+
+# 1. Initialize micromamba (using your proven settings)
+export MAMBA_ROOT_PREFIX="/storage/home/ejt89"
+eval "$($MAMBA_ROOT_PREFIX/bin/micromamba shell hook -s bash)"
+
+# 2. Activate the bioinfo environment
+micromamba activate bioinfo
+
+# 3. Verify path (optional)
+echo "Using Snakemake from: $(which snakemake)"
+
+# 4. Run the single sample test
+# We use 4 cores to match the cpus-per-task above
+SAMPLE_BAI="/scratch/ejt89/apes_output/alignments/GorGor_male_PD0184_ERR12633272_t2t.bam.bai"
+snakemake --cores 4 --keep-going --rerun-incomplete $SAMPLE_BAI #--config one_srr_per_individual=False 
+

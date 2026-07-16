@@ -1,0 +1,11 @@
+name: kmer_diss
+channels:
+  - conda-forge
+  - bioconda
+  - defaults
+dependencies:
+  - python=3.11
+  - pandas
+  - pysam
+  - biopython
+  - tqdm
