@@ -1,0 +1,85 @@
+import os
+import glob
+
+configfile: "config.yaml"
+
+REFDIR = config.get('refdir', '.')
+OUTDIR = config.get('outdir', 'blast_results')
+FLANK = config.get('flank_size', 500)
+ASSEMBLIES = config.get('assemblies', [])
+HAPLOTYPES = config.get('haplotypes', ['pri'])
+
+os.makedirs(OUTDIR, exist_ok=True)
+os.makedirs('numt_set', exist_ok=True)
+
+# helpers
+def find_nucl(ass, hap):
+    # try patterns including haplotype, then fallbacks
+    patterns = [os.path.join(REFDIR, f"*{ass}*{hap}*"),
+                os.path.join(REFDIR, f"*{ass}*.fasta"),
+                os.path.join(REFDIR, f"*{ass}*.fa"),
+                os.path.join(REFDIR, f"*{ass}*.fna")]
+    for p in patterns:
+        files = glob.glob(p)
+        if files:
+            return files[0]
+    raise ValueError(f"Nuclear FASTA for {ass} (hap {hap}) not found in {REFDIR}")
+
+def find_mt(ass):
+    candidates = glob.glob(os.path.join(REFDIR, 'mt_genomes', f"{ass}*"))
+    if candidates:
+        return candidates[0]
+    # fallback: any mt in refdir
+    candidates = glob.glob(os.path.join(REFDIR, f"*{ass}*mt*"))
+    if candidates:
+        return candidates[0]
+    raise ValueError(f"mt FASTA for {ass} not found in {REFDIR}/mt_genomes")
+
+# targets: one numt_set file per assembly/haplotype
+rule all:
+    input: expand("numt_set/numts.{ass}.{hap}.bed", ass=ASSEMBLIES, hap=HAPLOTYPES)
+
+rule blastn_search:
+    output: tab=os.path.join(OUTDIR, "blast.{ass}.{hap}.tab")
+    input:
+        nucl=lambda wc: find_nucl(wc.ass, wc.hap),
+        mt=lambda wc: find_mt(wc.ass)
+    threads: 4
+    shell: (
+        "blastn -subject {input.nucl} -query {input.mt} -outfmt '7' -task blastn -evalue 0.0001 "
+        "-gapopen 5 -gapextend 2 -penalty -3 -reward 2 > {output.tab}"
+    )
+
+rule process_blast:
+    input: os.path.join(OUTDIR, "blast.{ass}.{hap}.tab")
+    output: os.path.join(OUTDIR, "blast.{ass}.{hap}.bed")
+    shell: "python3 2_process_blast.py {input} > {output}"
+
+rule sort_merge_and_flank:
+    input:
+        bed=os.path.join(OUTDIR, "blast.{ass}.{hap}.bed"),
+        nucl=lambda wc: find_nucl(wc.ass, wc.hap)
+    output:
+        merged=os.path.join(OUTDIR, "blast.{ass}.{hap}.bed.sorted.merged"),
+        flanks_bed=os.path.join(OUTDIR, "flanks.{ass}.{hap}.bed"),
+        flanks_fa=os.path.join(OUTDIR, "flanks.{ass}.{hap}.fasta")
+    params: flank=FLANK
+    shell: (
+        "bedtools sort -i {input.bed} | bedtools merge -c 4,5,6 -o distinct > {output.merged} && "
+        "bedtools flank -b {params.flank} -i {output.merged} -g {input.nucl}.fai > {output.flanks_bed} && "
+        "bedtools getfasta -name -fi {input.nucl} -bed {output.flanks_bed} -fo {output.flanks_fa}"
+    )
+
+rule concat_flanks:
+    input: os.path.join(OUTDIR, "flanks.{ass}.{hap}.fasta")
+    output: os.path.join(OUTDIR, "concat.{input[0].split('/')[-1]}")
+    run:
+        # The concat_fasta.py writes concat.<basename> in same dir; call it
+        shell(f"python3 utils/concat_fasta.py {input}")
+
+rule make_numt_set:
+    input: os.path.join(OUTDIR, "blast.{ass}.{hap}.bed")
+    output: "numt_set/numts.{ass}.{hap}.bed"
+    shell: (
+        "mkdir -p numt_set && awk -v prefix=\"{wildcards.ass}_{wildcards.hap}_N\" 'BEGIN { OFS = \"\\t\" } { print $0, prefix i++ }' {input} > {output}"
+    )

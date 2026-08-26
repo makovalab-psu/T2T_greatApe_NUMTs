@@ -1,0 +1,2 @@
+canFam3
+# add additional assembly ids (one per line) if needed

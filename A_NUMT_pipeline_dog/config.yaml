@@ -1,0 +1,8 @@
+# Snakemake config for NUMT pipeline
+refdir: "/path/to/refs"  # set to your refs directory
+outdir: "blast_results"
+flank_size: 500
+assemblies:
+  - canFam3
+haplotypes:
+  - pri
